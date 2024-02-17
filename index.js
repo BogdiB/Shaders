@@ -1,15 +1,19 @@
 let myshader;
+let backgroundImage;
 
 function loader(name) {
     if (typeof name !== "string") {
         throw Error("Shader name in loader function in the p5worker is not a string.");
+    }
+    if (name === "imageShader") {
+      backgroundImage = loadImage("image.jpg");
     }
     name = name + "/" + name;
     return loadShader(name + ".vert", name + ".frag");
 }
 
 function preload() {
-  myshader = loader("testShader");
+  myshader = loader("imageShader");
 }
 
 function getMeasurements(type) {
@@ -40,13 +44,32 @@ function getMeasurements(type) {
 
 function setup() {
   clear();
+  frameRate(30);
 
   let {height, width} = getMeasurements();
   
   createCanvas(width, height, WEBGL);
   shader(myshader);
+
+  // only for image
+  imageShader();
 }
 
-function draw() {
+// shader functions - ALSO CHANGE THE NAME IN THE PRELOAD
+
+function firstTest() {
+  myshader.setUniform("millis", millis());
   rect(-width/2, -height/2, width, height);
+}
+
+function imageShader() {
+  // used in SETUP! - if used in "draw", it keeps drawing over itself every frame
+  myshader.setUniform("image", backgroundImage);
+  rect(-width/2, -height/2, width);
+}
+
+// end of shader functions
+
+function draw() {
+  ;
 }

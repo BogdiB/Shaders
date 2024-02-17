@@ -5,12 +5,11 @@ varying vec2 pos;
 
 // shader functions
 
-void firstTest() {
+void basic() {
   pos = aTexCoord;
   
   vec4 position = vec4(aPosition, 1.0);
   position.xy = position.xy * 2.0 - 1.0;
-  // position.y += sin(position.x);
   
   gl_Position = position;
 }
@@ -18,5 +17,5 @@ void firstTest() {
 // end of shader functions
 
 void main() {
-  firstTest();
+  basic();
 }

@@ -6,9 +6,9 @@ def custom_callback():
 
 server = HttpWatcherServer(
     "./", # serve files from the current folder
-    watch_paths = ["./", "./testShader/"], # watch these paths for changes
+    watch_paths = ["./", "./testShader/", "./imageShader"], # watch these paths for changes - TODO: automatic directory additions
     on_reload = custom_callback, # optionally specify a custom callback to be called just before the server reloads
-    host = "localhost", # bind to localhost
+    host = "127.0.0.1", # bind to localhost - putting it as "localhost" does not work
     port = 8000,
     server_base_path = "/", # serve static content from http://127.0.0.1:8000/
     watcher_interval = 1.0, # maximum reload frequency (seconds)
