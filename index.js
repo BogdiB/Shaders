@@ -50,9 +50,6 @@ function setup() {
   
   createCanvas(width, height, WEBGL);
   shader(myshader);
-
-  // only for image
-  imageShader();
 }
 
 // shader functions - ALSO CHANGE THE NAME IN THE PRELOAD
@@ -63,7 +60,20 @@ function firstTest() {
 }
 
 function imageShader() {
-  // used in SETUP! - if used in "draw", it keeps drawing over itself every frame
+  /*
+    putting the imageShader function in the draw function works, but is very inefficient
+    so one might think to put it in setup, which would only draw the thing once
+    this is the correct approach
+    *HOWEVER*
+    if we want to change the shader based on certain things, such as changing it every second
+    from grayscale to something else, and then back to grayscale...
+    we have to put the imageShader() in the draw function so that it gets redrawn every frame,
+    one might then think that putting the setUniform for the image in the setup would be more
+    efficient, but the way the draw function works is not by REdrawing, but by drawing over,
+    therefore having the setUniform for the image not in the draw function means that the shader
+    effect gets drawn on top of itself each frame, not leading to the outcome that we hoped for,
+    so we have no choice but to also redraw the image on every frame
+  */
   myshader.setUniform("image", backgroundImage);
   rect(-width/2, -height/2, width);
 }
@@ -71,5 +81,6 @@ function imageShader() {
 // end of shader functions
 
 function draw() {
-  ;
+  // draw gets called as many times as frameRate() per second
+  imageShader();
 }
